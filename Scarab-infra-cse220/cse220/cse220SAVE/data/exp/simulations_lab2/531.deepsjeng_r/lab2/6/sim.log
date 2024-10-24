@@ -1,0 +1,41 @@
+Scarab gitrev: 3541854
+Scarab started at Thu Oct 24 15:49:51 2024
+
+Initialized Ramulator. 
+** Heartbeat:   5% -- { 1000000 } -- 0.00 KIPS (45.45 KIPS)
+** Heartbeat:  10% -- { 2000001 } -- 52.63 KIPS (48.78 KIPS)
+** Heartbeat:  15% -- { 3000006 } -- 58.82 KIPS (51.72 KIPS)
+** Heartbeat:  20% -- { 4000010 } -- 55.56 KIPS (52.63 KIPS)
+** Heartbeat:  25% -- { 5000013 } -- 55.56 KIPS (53.19 KIPS)
+** Heartbeat:  30% -- { 6000013 } -- 55.56 KIPS (53.57 KIPS)
+** Heartbeat:  35% -- { 7000017 } -- 55.56 KIPS (53.85 KIPS)
+** Heartbeat:  40% -- { 8000021 } -- 62.50 KIPS (54.79 KIPS)
+** Heartbeat:  45% -- { 9000024 } -- 58.82 KIPS (55.21 KIPS)
+** Heartbeat:  50% -- { 10000025 } -- 55.56 KIPS (55.25 KIPS)
+** Heartbeat:  55% -- { 11000027 } -- 62.50 KIPS (55.84 KIPS)
+** Heartbeat:  60% -- { 12000027 } -- 55.56 KIPS (55.81 KIPS)
+** Heartbeat:  65% -- { 13000028 } -- 52.63 KIPS (55.56 KIPS)
+** Heartbeat:  70% -- { 14000030 } -- 55.56 KIPS (55.56 KIPS)
+** Heartbeat:  75% -- { 15000030 } -- 55.56 KIPS (55.56 KIPS)
+** Heartbeat:  80% -- { 16000032 } -- 55.56 KIPS (55.56 KIPS)
+** Heartbeat:  85% -- { 17000034 } -- 58.82 KIPS (55.74 KIPS)
+** Heartbeat:  90% -- { 18000039 } -- 52.63 KIPS (55.56 KIPS)
+** Heartbeat:  95% -- { 19000042 } -- 52.63 KIPS (55.39 KIPS)
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+** Core 0 Finished:    insts:20000000    cycles:8675437     time:2711074062500       -- 2.31 IPC (2.31 IPC) --  N/A  KIPS (55.56 KIPS)
+Scarab finished at Thu Oct 24 15:55:52 2024
+

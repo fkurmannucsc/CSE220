@@ -1,0 +1,143 @@
+Scarab gitrev: 3541854
+Scarab started at Thu Oct 24 14:07:06 2024
+
+Initialized Ramulator. 
+** Heartbeat:   5% -- { 1000002 } -- 0.00 KIPS (37.04 KIPS)
+** Heartbeat:  10% -- { 2000006 } -- 35.71 KIPS (36.36 KIPS)
+** Heartbeat:  15% -- { 3000009 } -- 31.25 KIPS (34.48 KIPS)
+** Heartbeat:  20% -- { 4000011 } -- 32.26 KIPS (33.90 KIPS)
+** Heartbeat:  25% -- { 5000014 } -- 40.00 KIPS (34.97 KIPS)
+** Heartbeat:  30% -- { 6000014 } -- 34.48 KIPS (34.88 KIPS)
+** Heartbeat:  35% -- { 7000017 } -- 34.48 KIPS (34.83 KIPS)
+** Heartbeat:  40% -- { 8000019 } -- 33.33 KIPS (34.63 KIPS)
+** Heartbeat:  45% -- { 9000022 } -- 33.33 KIPS (34.48 KIPS)
+** Heartbeat:  50% -- { 10000022 } -- 33.33 KIPS (34.36 KIPS)
+** Heartbeat:  55% -- { 11000026 } -- 32.26 KIPS (34.16 KIPS)
+** Heartbeat:  60% -- { 12000027 } -- 35.71 KIPS (34.29 KIPS)
+** Heartbeat:  65% -- { 13000028 } -- 35.71 KIPS (34.39 KIPS)
+** Heartbeat:  70% -- { 14000032 } -- 31.25 KIPS (34.15 KIPS)
+** Heartbeat:  75% -- { 15000037 } -- 34.48 KIPS (34.17 KIPS)
+** Heartbeat:  80% -- { 16000039 } -- 37.04 KIPS (34.33 KIPS)
+** Heartbeat:  85% -- { 17000039 } -- 33.33 KIPS (34.27 KIPS)
+** Heartbeat:  90% -- { 18000041 } -- 33.33 KIPS (34.22 KIPS)
+** Heartbeat:  95% -- { 19000046 } -- 35.71 KIPS (34.30 KIPS)
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+Warning could not fetch inst from frontend
+** Core 0 Finished:    insts:20000000    cycles:9368230     time:2927571875000       -- 2.13 IPC (2.13 IPC) --  N/A  KIPS (34.90 KIPS)
+Scarab finished at Thu Oct 24 14:16:39 2024
+
