@@ -82,7 +82,6 @@ def plot_data(benchmarks, data, ylabel_name, fig_name, ylim=None):
       hatch='///'
     ax.bar(ind + (start_id+idx)*width, data[key], width=width, fill=False, hatch=hatch, color=colors[idx], edgecolor=colors[idx], label=key)
     idx += 1
-  plt.title(ylabel_name + " for Benchmarks")
   ax.set_xlabel("Benchmarks")
   ax.set_ylabel(ylabel_name)
   ax.set_xticks(ind)

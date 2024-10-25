@@ -1,0 +1,20 @@
+{
+    "architecture": "sunny_cove",
+    "workloads_list": [
+        "511.povray_r",
+        "548.exchange2_r",
+        "549.fotonik3d_r",
+        "554.roms_r",
+        "557.xz_r"
+    ],
+    "experiment": "lab2",
+    "configurations": {
+        "1": "--dcache_size 32768 --dcache_assoc 4",
+        "2": "--dcache_size 4096 --dcache_assoc 1",
+        "3": "--dcache_size 4096 --dcache_assoc 4",
+        "4": "--dcache_size 4096 --dcache_assoc 64",
+        "5": "--dcache_size 262144 --dcache_assoc 1",
+        "6": "--dcache_size 262144 --dcache_assoc 4",
+        "7": "--dcache_size 262144 --dcache_assoc 64"
+    }
+}

@@ -87,7 +87,7 @@ def plot_data(benchmarks, data, ylabel_name, fig_name, ylim=None):
   ax.set_ylabel(ylabel_name)
   ax.set_xticks(ind)
   ax.set_xticklabels(benchmarks, rotation = 27, ha='right')
-  ax.grid('x');
+  ax.grid('x')
   if ylim != None:
     ax.set_ylim(ylim)
   ax.legend(loc="upper left", ncols=2)
@@ -98,9 +98,9 @@ def plot_data(benchmarks, data, ylabel_name, fig_name, ylim=None):
 if __name__ == "__main__":
     # Create a parser for command-line arguments
     parser = argparse.ArgumentParser(description='Read descriptor file name')
-    parser.add_argument('-o','--output_dir', required=True, help='Output path. Usage: -o /home/$USER/plot')
-    parser.add_argument('-d','--descriptor_name', required=True, help='Experiment descriptor name. Usage: -d /home/$USER/lab1.json')
-    parser.add_argument('-s','--simulation_path', required=True, help='Simulation result path. Usage: -s /home/$USER/exp/simulations')
+    parser.add_argument('-o','--output_dir', required=True, help='Output path. Usage: -o /home/$USER/plot/lab2')
+    parser.add_argument('-d','--descriptor_name', required=True, help='Experiment descriptor name. Usage: -d /home/$USER/lab2.json')
+    parser.add_argument('-s','--simulation_path', required=True, help='Simulation result path. Usage: -s /home/$USER/exp/simulations_lab2')
 
     args = parser.parse_args()
     descriptor_filename = args.descriptor_name
@@ -110,3 +110,20 @@ if __name__ == "__main__":
     plt.grid('x')
     plt.tight_layout()
     plt.show()
+
+
+"519.lbm_r",
+"520.omnetpp_r",
+"521.wrf_r",
+"523.xalancbmk_r",
+"525.x264_r",
+"526.blender_r",
+"527.cam4_r",
+"531.deepsjeng_r",
+"538.imagick_r",
+"541.leela_r",
+"544.nab_r",
+"548.exchange2_r",
+"549.fotonik3d_r",
+"554.roms_r",
+"557.xz_r"

@@ -23,43 +23,58 @@ def read_descriptor_from_json(descriptor_filename):
         print(f"Error decoding JSON in file '{descriptor_filename}': {e}")
         return None
 
-def get_IPC(descriptor_data, sim_path, output_dir):
+def get_dcache(descriptor_data, sim_path, output_dir):
   benchmarks_org = descriptor_data["workloads_list"].copy()
   benchmarks = []
-  ipc = {}
+  dcache = {}
 
   try:
     for config_key in descriptor_data["configurations"].keys():
-      ipc_config = []
-      avg_IPC_config = 0.0
+      dcache_config = []
+      avg_dcache_config = 0.0
       cnt_benchmarks = 0
       for benchmark in benchmarks_org:
         benchmark_name = benchmark.split("/")
         exp_path = sim_path+'/'+benchmark+'/'+descriptor_data["experiment"]+'/'
-        IPC = 0
+        miss = 0.0
+        hit = 0.0
         with open(exp_path+config_key+'/memory.stat.0.csv') as f:
           lines = f.readlines()
           for line in lines:
-            if 'Periodic IPC' in line:
+            if 'DCACHE_MISS_count' in line:
               tokens = [x.strip() for x in line.split(',')]
-              IPC = float(tokens[1])
+              miss = float(tokens[1])
+              break
+        
+        with open(exp_path+config_key+'/memory.stat.0.csv') as f:
+          lines = f.readlines()
+          for line in lines:
+            if 'DCACHE_HIT_count' in line:
+              tokens = [x.strip() for x in line.split(',')]
+              hit = float(tokens[1])
               break
 
-        avg_IPC_config += IPC
+        total = hit + miss
+        if total == 0.0:
+          ratio = 0.0
+        else:
+          ratio = miss/total
+
+        avg_dcache_config += ratio
 
         cnt_benchmarks = cnt_benchmarks + 1
         if len(benchmarks_org) > len(benchmarks):
           benchmarks.append(benchmark_name)
 
-        ipc_config.append(IPC)
+        dcache_config.append(ratio)
 
       num = len(benchmarks)
       print(benchmarks)
-      ipc_config.append(avg_IPC_config/num)
-      ipc[config_key] = ipc_config
+      dcache_config.append(avg_dcache_config/num)
+      dcache[config_key] = dcache_config
 
     benchmarks.append('Avg')
-    plot_data(benchmarks, ipc, 'IPC', output_dir+'/FigureA.png')
+    plot_data(benchmarks, dcache, 'Dcache Miss Ratio', output_dir+'/FigureB.png')
 
   except Exception as e:
     print(e)
@@ -83,30 +98,32 @@ def plot_data(benchmarks, data, ylabel_name, fig_name, ylim=None):
     ax.bar(ind + (start_id+idx)*width, data[key], width=width, fill=False, hatch=hatch, color=colors[idx], edgecolor=colors[idx], label=key)
     idx += 1
   plt.title(ylabel_name + " for Benchmarks")
+  plt.yscale('log')
   ax.set_xlabel("Benchmarks")
   ax.set_ylabel(ylabel_name)
   ax.set_xticks(ind)
   ax.set_xticklabels(benchmarks, rotation = 27, ha='right')
-  ax.grid('x');
+  ax.grid('x')
   if ylim != None:
     ax.set_ylim(ylim)
   ax.legend(loc="upper left", ncols=2)
   fig.tight_layout()
+  print("Saving plot!")
   plt.savefig(fig_name, format="png", bbox_inches="tight")
 
 
 if __name__ == "__main__":
     # Create a parser for command-line arguments
     parser = argparse.ArgumentParser(description='Read descriptor file name')
-    parser.add_argument('-o','--output_dir', required=True, help='Output path. Usage: -o /home/$USER/plot')
-    parser.add_argument('-d','--descriptor_name', required=True, help='Experiment descriptor name. Usage: -d /home/$USER/lab1.json')
+    parser.add_argument('-o','--output_dir', required=True, help='Output path. Usage: -o /home/$USER/plot/lab2_part_b')
+    parser.add_argument('-d','--descriptor_name', required=True, help='Experiment descriptor name. Usage: -d /home/$USER/lab2.json')
     parser.add_argument('-s','--simulation_path', required=True, help='Simulation result path. Usage: -s /home/$USER/exp/simulations')
 
     args = parser.parse_args()
     descriptor_filename = args.descriptor_name
 
     descriptor_data = read_descriptor_from_json(descriptor_filename)
-    get_IPC(descriptor_data, args.simulation_path, args.output_dir)
+    get_dcache(descriptor_data, args.simulation_path, args.output_dir)
     plt.grid('x')
     plt.tight_layout()
     plt.show()

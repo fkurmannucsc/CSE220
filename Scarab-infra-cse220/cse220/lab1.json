@@ -25,10 +25,13 @@
         "554.roms_r",
         "557.xz_r"
     ],
+  
     "experiment": "lab1",
     "configurations": {
-        "baseline": "--map_cycles 5 --issue_width 4",
-        "map_10": "--map_cycles 10",
-        "issue_width_10": "--issue_width 10 --node_ret_width 10"
-  }
+        "1": "--map_cycles 2 --issue_width 2 --node_ret_width 2",
+        "2": "--map_cycles 10 --issue_width 2 --node_ret_width 2",
+        "3": "--map_cycles 2 --issue_width 10 --node_ret_width 10",
+        "4": "--map_cycles 10 --issue_width 10 --node_ret_width 10"
+    }
 }
+
