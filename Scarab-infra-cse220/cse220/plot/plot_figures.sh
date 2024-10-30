@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 # Change this for new lab!
 OUTPUT_DIR=/home/$USER/plot/lab2_part_b
 SIM_PATH=/home/$USER/exp/simulations
-DESCRIPTOR_PATH=/home/$USER/lab2test.json
+DESCRIPTOR_PATH=/home/$USER/lab2.json
 
 mkdir -p $OUTPUT_DIR
 
@@ -22,3 +22,4 @@ mkdir -p $OUTPUT_DIR
 # Lab 2 plots, part B.
 python3 plot_lab2_dcache_miss.py -o $OUTPUT_DIR -d $DESCRIPTOR_PATH -s $SIM_PATH
 python3 plot_lab2_ccc.py -o $OUTPUT_DIR -d $DESCRIPTOR_PATH -s $SIM_PATH
+python3 plot_lab2_ccc_rate.py -o $OUTPUT_DIR -d $DESCRIPTOR_PATH -s $SIM_PATH

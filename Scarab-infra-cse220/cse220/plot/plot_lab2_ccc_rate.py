@@ -9,7 +9,6 @@ import numpy as np
 import csv
 from matplotlib import cm
 
-
 matplotlib.rc('font', size=14)
 
 def read_descriptor_from_json(descriptor_filename):
@@ -25,21 +24,33 @@ def read_descriptor_from_json(descriptor_filename):
         print(f"Error decoding JSON in file '{descriptor_filename}': {e}")
         return None
 
-def get_dcache(descriptor_data, sim_path, output_dir):
+def get_ccc(descriptor_data, sim_path, output_dir):
   benchmarks_org = descriptor_data["workloads_list"].copy()
   benchmarks = []
-  dcache = {}
+  capacity_dict = {}
+  conflict_dict = {}
+  compulsory_dict = {}
 
   try:
     for config_key in descriptor_data["configurations"].keys():
-      dcache_config = []
-      avg_dcache_config = 0.0
+      capacity_config = []
+      conflict_config = []
+      compulsory_config = []
+
+      avg_capacity = 0.0
+      avg_conflict = 0.0
+      avg_compulsory = 0.0
+
       cnt_benchmarks = 0
       for benchmark in benchmarks_org:
         benchmark_name = benchmark.split("/")
         exp_path = sim_path+'/'+benchmark+'/'+descriptor_data["experiment"]+'/'
-        miss = 0.0
+        capacity = 0.0
+        conflict = 0.0
+        compulsory = 0.0
         hit = 0.0
+        miss = 0.0
+
         with open(exp_path+config_key+'/memory.stat.0.csv') as f:
           lines = f.readlines()
           for line in lines:
@@ -47,7 +58,34 @@ def get_dcache(descriptor_data, sim_path, output_dir):
               tokens = [x.strip() for x in line.split(',')]
               miss = float(tokens[1])
               break
+
+        with open(exp_path+config_key+'/memory.stat.0.csv') as f:
+          lines = f.readlines()
+          for line in lines:
+            if 'DCACHE_MISS_ONPATH_COMPULSORY_total_count' in line:
+              tokens = [x.strip() for x in line.split(',')]
+              compulsory = float(tokens[1])
+              break
         
+        with open(exp_path+config_key+'/memory.stat.0.csv') as f:
+          lines = f.readlines()
+          for line in lines:
+            if 'DCACHE_MISS_ONPATH_CAPACITY_total_count' in line:
+              tokens = [x.strip() for x in line.split(',')]
+              capacity = float(tokens[1])
+              compulsory += float(tokens[1])
+              break
+        
+        with open(exp_path+config_key+'/memory.stat.0.csv') as f:
+          lines = f.readlines()
+          for line in lines:
+            if 'DCACHE_MISS_ONPATH_CONFLICT_total_count' in line:
+              tokens = [x.strip() for x in line.split(',')]
+              conflict = float(tokens[1])
+              capacity += float(tokens[1])
+              compulsory += float(tokens[1])
+              break
+
         with open(exp_path+config_key+'/memory.stat.0.csv') as f:
           lines = f.readlines()
           for line in lines:
@@ -60,23 +98,35 @@ def get_dcache(descriptor_data, sim_path, output_dir):
         if total == 0.0:
           ratio = 0.0
         else:
-          ratio = miss/total
+          capacity_ratio = capacity/total
+          conflict_ratio = conflict/total
+          compulsory_ratio = compulsory/total
 
-        avg_dcache_config += ratio
+        avg_capacity += capacity_ratio
+        avg_conflict += conflict_ratio
+        avg_compulsory += compulsory_ratio
 
         cnt_benchmarks = cnt_benchmarks + 1
         if len(benchmarks_org) > len(benchmarks):
           benchmarks.append(benchmark_name)
 
-        dcache_config.append(ratio)
+        capacity_config.append(capacity_ratio)
+        conflict_config.append(conflict_ratio)
+        compulsory_config.append(compulsory_ratio)
 
       num = len(benchmarks)
 
-      dcache_config.append(avg_dcache_config/num)
-      dcache[config_key] = dcache_config
+      capacity_config.append(avg_capacity/num)
+      conflict_config.append(avg_conflict/num)
+      compulsory_config.append(avg_compulsory/num)
 
+      capacity_dict[config_key] = capacity_config
+      conflict_dict[config_key] = conflict_config
+      compulsory_dict[config_key] = compulsory_config
+
+    ccc = {"conflict": conflict_dict, "capacity": capacity_dict, "compulsory": compulsory_dict}
     benchmarks.append('Avg')
-    plot_data(benchmarks, dcache, 'Dcache Miss Ratio', output_dir+'/FigureB.png')
+    plot_data(benchmarks, ccc, 'Dcache C,C,C Ratio', output_dir+'/FigureCCC_rate.png')
 
   except Exception as e:
     print(e)
@@ -95,39 +145,48 @@ def plot_data(benchmarks, data, ylabel_name, fig_name, ylim=None):
     
     index_data = {}
     for key, value in data.items():
-      index_data[key] = value[lower_index: upper_index]
+      inner_index_data = {}
+      for inner_key, inner_value in value.items():
+        inner_index_data[inner_key] = inner_value[lower_index: upper_index]
+      index_data[key] = inner_index_data
     index_benchmarks = benchmarks[lower_index: upper_index]
-    
+
     print("Plotting", i)
     # Original plotting code, modified for application
     colors = ['#800000', '#911eb4', '#4363d8', '#f58231', '#3cb44b', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#e6beff', '#e6194b', '#000075', '#800000', '#9a6324', '#808080', '#ffffff', '#000000']
     ind = np.arange(len(index_benchmarks))
     width = 0.1
     fig, ax = plt.subplots(figsize=(20, 4.4), dpi=80)
+    fig.stacked = True
     num_keys = len(index_data.keys())
-
-    idx = 0
+    
+    outer_idx = 0
     start_id = -int(num_keys/2)
-    for key in index_data.keys():
-      hatch=''
-      if idx % 2:
-        hatch='\\\\'
-      else:
-        hatch='///'
-      ax.bar(ind + (start_id+idx)*width, index_data[key], width=width, fill=False, hatch=hatch, color=colors[idx], edgecolor=colors[idx], label=key)
-      idx += 1
+    for key, value in reversed(index_data.items()):
+      # print(key, value)
+      idx = 0
+
+      for inner_key, inner_value in value.items():
+        if idx == 0:
+          ax.bar(ind + (start_id+idx)*width, inner_value, width=width, fill=True, color=colors[outer_idx], edgecolor='black', label=key)
+        else:
+          ax.bar(ind + (start_id+idx)*width, inner_value, width=width, fill=True, color=colors[outer_idx], edgecolor='black')
+        idx += 1
+
+      outer_idx += 1    
+
     plt.title(ylabel_name + " for Benchmarks")
-    # plt.yscale('log')
     ax.set_xlabel("Benchmarks")
     ax.set_ylabel(ylabel_name)
     ax.set_xticks(ind)
     ax.set_xticklabels(index_benchmarks, rotation = 27, ha='right')
     ax.grid('x')
+
     if ylim != None:
       ax.set_ylim(ylim)
     ax.legend(loc="upper left", ncols=2)
     fig.tight_layout()
-
+    
     index_figname = fig_name[:-4] + str(i) + fig_name [-4:]
     print("Saving plot!", index_figname)
     plt.savefig(index_figname, format="png", bbox_inches="tight")
@@ -144,7 +203,7 @@ if __name__ == "__main__":
     descriptor_filename = args.descriptor_name
 
     descriptor_data = read_descriptor_from_json(descriptor_filename)
-    get_dcache(descriptor_data, args.simulation_path, args.output_dir)
+    get_ccc(descriptor_data, args.simulation_path, args.output_dir)
     plt.grid('x')
     plt.tight_layout()
     plt.show()

@@ -1,12 +1,10 @@
 {
     "architecture": "sunny_cove",
     "workloads_list": [
-        "511.povray_r",
-        "502.suckmyass_r"
+        "548.exchange2_r"
     ],
     "experiment": "lab2test",
     "configurations": {
-        "1": "--dcache_size 4096 --dcache_assoc 64",
-        "2": "--dcache_size 4096 --dcache_assoc 32"
+        "2": "--dcache_size 4096 --dcache_assoc 1"
     }
 }

@@ -2,6 +2,7 @@ import os
 import json
 import argparse
 import pandas as pd
+import math
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -51,7 +52,7 @@ def get_ccc(descriptor_data, sim_path, output_dir):
         with open(exp_path+config_key+'/memory.stat.0.csv') as f:
           lines = f.readlines()
           for line in lines:
-            if 'DCACHE_MISS_ONPATH_COMPULSORY_count' in line:
+            if 'DCACHE_MISS_ONPATH_COMPULSORY_total_count' in line:
               tokens = [x.strip() for x in line.split(',')]
               compulsory = float(tokens[1])
               break
@@ -59,7 +60,7 @@ def get_ccc(descriptor_data, sim_path, output_dir):
         with open(exp_path+config_key+'/memory.stat.0.csv') as f:
           lines = f.readlines()
           for line in lines:
-            if 'DCACHE_MISS_ONPATH_CAPACITY_count' in line:
+            if 'DCACHE_MISS_ONPATH_CAPACITY_total_count' in line:
               tokens = [x.strip() for x in line.split(',')]
               capacity = float(tokens[1])
               compulsory += float(tokens[1])
@@ -68,7 +69,7 @@ def get_ccc(descriptor_data, sim_path, output_dir):
         with open(exp_path+config_key+'/memory.stat.0.csv') as f:
           lines = f.readlines()
           for line in lines:
-            if 'DCACHE_MISS_ONPATH_CONFLICT_count' in line:
+            if 'DCACHE_MISS_ONPATH_CONFLICT_total_count' in line:
               tokens = [x.strip() for x in line.split(',')]
               conflict = float(tokens[1])
               capacity += float(tokens[1])
@@ -97,51 +98,72 @@ def get_ccc(descriptor_data, sim_path, output_dir):
       conflict_dict[config_key] = conflict_config
       compulsory_dict[config_key] = compulsory_config
 
-    # ccc = {}
-    # for key in capacity_dict:
-    #   ccc[key] = {"capacity": capacity_dict[key], "conflict": conflict_dict[key], "compulsory": compulsory_dict[key]}
-
     ccc = {"conflict": conflict_dict, "capacity": capacity_dict, "compulsory": compulsory_dict}
     benchmarks.append('Avg')
-    plot_data(benchmarks, ccc, 'Dcache C,C,C Distribution', output_dir+'/FigureCCC.png')
+    plot_data(benchmarks, ccc, 'Dcache C,C,C Counts', output_dir+'/FigureCCC.png')
 
   except Exception as e:
     print(e)
 
 def plot_data(benchmarks, data, ylabel_name, fig_name, ylim=None):
   print(data)
-  colors = ['#800000', '#911eb4', '#4363d8', '#f58231', '#3cb44b', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#e6beff', '#e6194b', '#000075', '#800000', '#9a6324', '#808080', '#ffffff', '#000000']
-  ind = np.arange(len(benchmarks))
-  width = 0.18
-  fig, ax = plt.subplots(figsize=(14, 4.4), dpi=80)
-  fig.stacked = True
-  num_keys = len(data.keys())
-  
-  outer_idx = 0
-  start_id = -int(num_keys/2)
-  for key, value in reversed(data.items()):
-    print(key, value)
-    idx = 0
+  data_keys = data.keys()
+  data_values = data.values()
+  num_plots = 3
+  for i in range(num_plots):
+    print("Loop", i)
+    # For dividing the data across a specific number of plots
+    num_datapoints = math.ceil(len(benchmarks) / num_plots)
+    lower_index = i * num_datapoints
+    upper_index = min((i + 1) * num_datapoints, len(benchmarks))
+    
+    index_data = {}
+    for key, value in data.items():
+      inner_index_data = {}
+      for inner_key, inner_value in value.items():
+        inner_index_data[inner_key] = inner_value[lower_index: upper_index]
+      index_data[key] = inner_index_data
+    index_benchmarks = benchmarks[lower_index: upper_index]
 
-    for inner_key, inner_value in value.items():
-      ax.bar(ind + (start_id+idx)*width, inner_value, width=width, fill=True, color=colors[outer_idx])
-      idx += 1
+    print("Plotting", i)
+    # Original plotting code, modified for application
+    colors = ['#800000', '#911eb4', '#4363d8', '#f58231', '#3cb44b', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#e6beff', '#e6194b', '#000075', '#800000', '#9a6324', '#808080', '#ffffff', '#000000']
+    ind = np.arange(len(index_benchmarks))
+    width = 0.1
+    fig, ax = plt.subplots(figsize=(20, 4.4), dpi=80)
+    fig.stacked = True
+    num_keys = len(index_data.keys())
+    
+    outer_idx = 0
+    start_id = -int(num_keys/2)
+    for key, value in reversed(index_data.items()):
+      # print(key, value)
+      idx = 0
 
-    outer_idx += 1    
+      for inner_key, inner_value in value.items():
+        if idx == 0:
+          ax.bar(ind + (start_id+idx)*width, inner_value, width=width, fill=True, color=colors[outer_idx], edgecolor='black', label=key)
+        else:
+          ax.bar(ind + (start_id+idx)*width, inner_value, width=width, fill=True, color=colors[outer_idx], edgecolor='black')
+        idx += 1
 
-  plt.title(ylabel_name + " for Benchmarks")
-  ax.set_xlabel("Benchmarks")
-  ax.set_ylabel(ylabel_name)
-  ax.set_xticks(ind)
-  ax.set_xticklabels(benchmarks, rotation = 27, ha='right')
-  ax.grid('x')
+      outer_idx += 1    
 
-  if ylim != None:
-    ax.set_ylim(ylim)
-  ax.legend(loc="upper left", ncols=2)
-  fig.tight_layout()
-  print("Saving plot!")
-  plt.savefig(fig_name, format="png", bbox_inches="tight")
+    plt.title(ylabel_name + " for Benchmarks")
+    ax.set_xlabel("Benchmarks")
+    ax.set_ylabel(ylabel_name)
+    ax.set_xticks(ind)
+    ax.set_xticklabels(index_benchmarks, rotation = 27, ha='right')
+    ax.grid('x')
+
+    if ylim != None:
+      ax.set_ylim(ylim)
+    ax.legend(loc="upper left", ncols=2)
+    fig.tight_layout()
+    
+    index_figname = fig_name[:-4] + str(i) + fig_name [-4:]
+    print("Saving plot!", index_figname)
+    plt.savefig(index_figname, format="png", bbox_inches="tight")
 
 
 if __name__ == "__main__":
