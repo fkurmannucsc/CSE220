@@ -31,4 +31,9 @@ docker start cse220_codespace        to start
 Lab 2 Commands
 ./run.sh -o /home/$USER/cse220_home -e lab2test -p 1 && code /home/$USER/cse220_home/plot/lab2_part_b/FigureCCC.png
 
-        
+
+
+docker exec -it --env USER=$USER --user $USER --workdir /home/$USER --privileged cse220_$USER /bin/bash
+
+cd scarab/src
+make opt

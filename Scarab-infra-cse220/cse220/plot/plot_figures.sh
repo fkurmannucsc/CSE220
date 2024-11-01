@@ -3,9 +3,9 @@ set -x #echo on
 cd "$(dirname "$0")"
 
 # Change this for new lab!
-OUTPUT_DIR=/home/$USER/plot/lab2_part_b
+OUTPUT_DIR=/home/$USER/plot/lab2_part_b_v2
 SIM_PATH=/home/$USER/exp/simulations
-DESCRIPTOR_PATH=/home/$USER/lab2.json
+DESCRIPTOR_PATH=/home/$USER/lab2.2.json
 
 mkdir -p $OUTPUT_DIR
 
